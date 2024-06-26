@@ -1,0 +1,19 @@
+{
+  "name": "penpot-plugin-starter-template",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "preview": "vite build --watch & vite preview",
+    "build": "tsc && vite build"
+  },
+  "dependencies": {
+    "@penpot/plugin-styles": "0.6.0",
+    "@penpot/plugin-types": "^0.7.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.2",
+    "vite": "^5.3.1"
+  }
+}

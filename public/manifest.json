@@ -1,0 +1,11 @@
+{
+  "name": "Orphaned Component Locator Plugin",
+  "host": "http://localhost:4400",
+  "code": "plugin.js",
+  "description": "List Orphaned Components in a page",
+  "permissions": [
+    "page:read",
+    "file:read",
+    "selection:read"
+  ]
+}
