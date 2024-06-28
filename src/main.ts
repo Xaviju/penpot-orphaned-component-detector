@@ -1,7 +1,27 @@
+import { PenpotShape } from "@penpot/plugin-types";
 import { PluginMessageEvent } from "./model";
 import "./style.css";
 
 const root = document.querySelector<HTMLDivElement>("#app")!;
+
+root.innerHTML = `
+<main class="orphaned-list-wrapper">
+<div class="orphaned-counter body-s" id="comp-count"></div>
+  <ul id="orphaned-list" class="orphaned-list">
+
+  </ul>
+</main>
+<footer class="plugin-actions">
+
+  <button
+    id="locate"
+    type="button"
+    data-appearance="primary"
+  >
+    List orphaned
+  </button>
+</footer>
+`;
 
 const init = () => {
   updateThemeFromUrl();
@@ -18,32 +38,6 @@ const updateThemeFromUrl = () => {
   }
 };
 
-root.innerHTML = `
-  <div class="plugin-wrapper">
-  <header>
-    <h1>Orphaned components Locator</h1>
-    <span>#NUMBER</span>
-  </header>
-  <main class="orphaned-list-wrapper">
-    <ul class="orphaned-list">
-      <li>
-        <span class="icon"></span> <span class="name">Component name</span>
-        <button class="focus">ICON</button>
-      </li>
-    </ul>
-  </main>
-  <footer>
-    <button
-      id="locate"
-      type="button"
-      data-appearance="primary"
-    >
-      List orphaned
-    </button>
-  </footer>
-</div>
-`;
-
 document.getElementById("locate")?.addEventListener("click", () => {
   sendMessage({
     content: "",
@@ -52,8 +46,45 @@ document.getElementById("locate")?.addEventListener("click", () => {
 });
 
 window.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "theme") {
-    root.setAttribute("data-theme", event.data.content);
+  if (event.data) {
+    if (event.data.type === "theme") {
+      root.setAttribute("data-theme", event.data.content);
+    }
+    if (event.data.type === "orphaned") {
+      const orphanedComponents = event.data.content;
+
+      document.querySelector<HTMLDivElement>(
+        "#comp-count"
+      )!.innerHTML = `${orphanedComponents.length} orphaned components`;
+
+      const orphanedComponentList =
+        document.querySelector<HTMLDivElement>("#orphaned-list")!;
+      orphanedComponentList.innerHTML = "";
+
+      orphanedComponents.forEach((comp: PenpotShape) => {
+        // Create listItem element
+        const componentListItem = document.createElement("li");
+
+        // Create and append icon
+        const componentListItemIcon = document.createElement("span");
+        componentListItemIcon.classList.add("icon", "icon-copy");
+        componentListItem.appendChild(componentListItemIcon);
+
+        // Create and append icon
+        const componentListItemName = document.createElement("span");
+        componentListItemName.classList.add("component-name");
+        componentListItemName.innerHTML = comp.name;
+        componentListItem.appendChild(componentListItemName);
+
+        // Create and append locate button
+        const componentListItemLocateButton = document.createElement("button");
+        componentListItemLocateButton.classList.add("navigate-component");
+        componentListItemLocateButton.innerHTML = "Navigate";
+        componentListItem.appendChild(componentListItemLocateButton);
+
+        orphanedComponentList.appendChild(componentListItem);
+      });
+    }
   }
 });
 

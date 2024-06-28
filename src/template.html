@@ -1,23 +1,23 @@
-<div class="plugin-wrapper">
-  <header>
-    <h1>Orphaned components Locator</h1>
-    <span>#NUMBER</span>
-  </header>
-  <main class="orphaned-list-wrapper">
-    <ul class="orphaned-list">
-      <li>
-        <span class="icon"></span> <span class="name">Component name</span>
-        <button class="focus">ICON</button>
-      </li>
-    </ul>
-  </main>
-  <footer>
-    <button
-      id="locate"
-      type="button"
-      data-appearance="primary"
-    >
-      List orphaned
-    </button>
-  </footer>
-</div>
+<header>
+  <span>#NUMBER orphaned components</span>
+</header>
+<main class="orphaned-list-wrapper">
+  <ul
+    id="orphaned-list"
+    class="orphaned-list"
+  >
+    <li>
+      <span class="icon"></span> <span class="name">Component name</span>
+      <button class="focus">ICON</button>
+    </li>
+  </ul>
+</main>
+<footer class="plugin-actions">
+  <button
+    id="locate"
+    type="button"
+    data-appearance="primary"
+  >
+    List orphaned
+  </button>
+</footer>

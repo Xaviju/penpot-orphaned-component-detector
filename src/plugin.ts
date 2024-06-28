@@ -1,3 +1,4 @@
+import { PenpotShape } from "@penpot/plugin-types";
 import { PluginMessageEvent } from "./model";
 
 console.log("Hello from the plugin!");
@@ -19,23 +20,42 @@ function sendMessage(message: PluginMessageEvent) {
   penpot.ui.sendMessage(message);
 }
 
-function getShapes() {
-  const shapes = penpot.getPage()?.findShapes();
-  console.log("shapes", shapes);
-  return shapes;
+function filterOrphanedShapes(): PenpotShape[] | null {
+  const pageShapes = penpot.getPage()?.findShapes();
+  if (!pageShapes) return null;
+
+  const componentInstances = pageShapes.filter(
+    (shape): boolean => shape.isComponentInstance() && shape.isComponentHead()
+  );
+
+  if (!componentInstances.length) return null;
+
+  const orphanedInstances: PenpotShape[] = componentInstances.filter(
+    (shape) => !shape.componentRefShape
+  );
+
+  console.log(orphanedInstances);
+
+  return orphanedInstances;
 }
 
-// function getOrphaned() {
-//   penpot.ui.sendMessage({
-//     type: "orphaned",
-//     content: {
-//       selection: getShapes(),
-//     },
-//   });
-// }
+function getOrphanedComponentInstances() {
+  const message = {
+    type: "orphaned",
+    content: filterOrphanedShapes()?.map((shape) => {
+      return {
+        name: shape.name,
+      };
+    }),
+  };
+
+  console.log("message", message);
+
+  penpot.ui.sendMessage(message);
+}
 
 penpot.ui.onMessage<PluginMessageEvent>((message) => {
   if (message.type === "locate") {
-    getShapes();
+    getOrphanedComponentInstances();
   }
 });
