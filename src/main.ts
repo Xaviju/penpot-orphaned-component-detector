@@ -27,7 +27,7 @@ const init = () => {
   updateThemeFromUrl();
 };
 
-// Sets the data theme at the top of the plugin
+// Sets the data theme at the root of the plugin
 const updateThemeFromUrl = () => {
   let queryString: string = window.location.search;
   let params: URLSearchParams = new URLSearchParams(queryString);
@@ -38,6 +38,7 @@ const updateThemeFromUrl = () => {
   }
 };
 
+// Sends a message to the plugin wrapper when the element is clicked
 document.getElementById("locate")?.addEventListener("click", () => {
   sendMessage({
     content: "",
@@ -45,6 +46,7 @@ document.getElementById("locate")?.addEventListener("click", () => {
   });
 });
 
+// Incoming message manager
 window.addEventListener("message", (event) => {
   if (event.data) {
     if (event.data.type === "theme") {
@@ -57,11 +59,12 @@ window.addEventListener("message", (event) => {
         "#comp-count"
       )!.innerHTML = `${orphanedComponents.length} orphaned components`;
 
+      // Get reference to the orphaned component list and remove all the elements
       const orphanedComponentList =
         document.querySelector<HTMLDivElement>("#orphaned-list")!;
       orphanedComponentList.innerHTML = "";
 
-      orphanedComponents.forEach((comp: PenpotShape) => {
+      orphanedComponents.forEach((shape: PenpotShape) => {
         // Create listItem element
         const componentListItem = document.createElement("li");
 
@@ -73,16 +76,35 @@ window.addEventListener("message", (event) => {
         // Create and append icon
         const componentListItemName = document.createElement("span");
         componentListItemName.classList.add("component-name");
-        componentListItemName.innerHTML = comp.name;
+        componentListItemName.innerHTML = shape.name;
         componentListItem.appendChild(componentListItemName);
 
         // Create and append locate button
         const componentListItemLocateButton = document.createElement("button");
+        componentListItemLocateButton.type = "button";
         componentListItemLocateButton.classList.add("navigate-component");
-        componentListItemLocateButton.innerHTML = "Navigate";
+        componentListItemLocateButton.setAttribute(
+          "aria-label",
+          "Navigate to component"
+        );
+        componentListItemLocateButton.setAttribute("data-shape", shape.id);
+        componentListItemLocateButton.innerHTML = "Center";
         componentListItem.appendChild(componentListItemLocateButton);
 
         orphanedComponentList.appendChild(componentListItem);
+
+        componentListItemLocateButton?.addEventListener("click", (event) => {
+          if (
+            event.target &&
+            event.target instanceof HTMLButtonElement &&
+            event.target.dataset.shape
+          ) {
+            sendMessage({
+              content: event.target.dataset.shape,
+              type: "centerViewport",
+            });
+          }
+        });
       });
     }
   }

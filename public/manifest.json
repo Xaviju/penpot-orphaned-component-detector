@@ -1,5 +1,5 @@
 {
-  "name": "Orphaned Component Locator",
+  "name": "Orphaned Detector",
   "host": "http://localhost:4400",
   "code": "plugin.js",
   "description": "Search and list Orphaned Components in a page",

@@ -31,31 +31,39 @@ function filterOrphanedShapes(): PenpotShape[] | null {
   if (!componentInstances.length) return null;
 
   const orphanedInstances: PenpotShape[] = componentInstances.filter(
-    (shape) => !shape.componentRefShape
+    (shape) => !shape.componentRefShape()
   );
 
-  console.log(orphanedInstances);
+  console.log("orphanedInstances", orphanedInstances);
 
   return orphanedInstances;
 }
 
+// Receives a message from the plugin UI and locates orphaned components
 function getOrphanedComponentInstances() {
   const message = {
     type: "orphaned",
     content: filterOrphanedShapes()?.map((shape) => {
-      return {
-        name: shape.name,
-      };
+      return shape;
     }),
   };
 
-  console.log("message", message);
-
   penpot.ui.sendMessage(message);
+}
+
+function centerViewport(message: PluginMessageEvent) {
+  const shape = penpot.getPage()?.getShapeById(message.content);
+  if (shape) {
+    const center = penpot.utils.geometry.center([shape])!;
+    penpot.viewport.center = center;
+  }
 }
 
 penpot.ui.onMessage<PluginMessageEvent>((message) => {
   if (message.type === "locate") {
     getOrphanedComponentInstances();
+  }
+  if (message.type === "centerViewport") {
+    centerViewport(message);
   }
 });

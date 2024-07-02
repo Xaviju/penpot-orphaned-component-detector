@@ -1,5 +1,5 @@
 {
-  "name": "penpot-plugin-starter-template",
+  "name": "orphaned-detector-plugin",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@penpot/plugin-styles": "0.6.0",
-    "@penpot/plugin-types": "^0.7.0"
+    "@penpot/plugin-types": "^0.8.0"
   },
   "devDependencies": {
     "typescript": "^5.5.2",

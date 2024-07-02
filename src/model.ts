@@ -12,4 +12,12 @@ export interface LocateOrphanedPluginEvent {
   content: string;
 }
 
-export type PluginMessageEvent = ThemePluginEvent | LocateOrphanedPluginEvent;
+export interface CenterViewportPluginEvent {
+  type: "centerViewport";
+  content: string;
+}
+
+export type PluginMessageEvent =
+  | ThemePluginEvent
+  | LocateOrphanedPluginEvent
+  | CenterViewportPluginEvent;
