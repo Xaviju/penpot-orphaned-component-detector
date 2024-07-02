@@ -3,14 +3,10 @@ import { PluginMessageEvent } from "./model";
 
 console.log("Hello from the plugin!");
 
-penpot.ui.open(
-  "ORPHANED COMPONENT LOCATOR PLUGIN",
-  `?theme=${penpot.getTheme()}`,
-  {
-    width: 300,
-    height: 600,
-  }
-);
+penpot.ui.open("ORPHANED DETECTOR PLUGIN", `?theme=${penpot.getTheme()}`, {
+  width: 400,
+  height: 800,
+});
 
 penpot.on("themechange", (theme) => {
   sendMessage({ type: "theme", content: theme });

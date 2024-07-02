@@ -87,8 +87,12 @@ window.addEventListener("message", (event) => {
           "aria-label",
           "Navigate to component"
         );
+        componentListItemLocateButton.setAttribute(
+          "data-appearance",
+          "secondary"
+        );
         componentListItemLocateButton.setAttribute("data-shape", shape.id);
-        componentListItemLocateButton.innerHTML = "Center";
+        componentListItemLocateButton.innerHTML = "Go";
         componentListItem.appendChild(componentListItemLocateButton);
 
         orphanedComponentList.appendChild(componentListItem);
