@@ -7,14 +7,41 @@ body {
 svg {
   inline-size: 1rem;
   block-size: 1rem;
-  fill: black;
-  stroke: black;
 }
 
 #app {
   display: flex;
   flex-direction: column;
   block-size: 100%;
+}
+
+.plugin-wrapper {
+  flex: 1;
+  display: flex;
+}
+
+.plugin-welcome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+}
+
+.plugin-welcome-hero > svg {
+  inline-size: 5rem;
+  block-size: 5rem;
+  margin-block-end: var(--spacing-16);
+}
+
+.plugin-main {
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
 }
 
 .orphaned-list-wrapper {
@@ -36,10 +63,10 @@ svg {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: var(--spacing-4);
+    gap: var(--spacing-8);
     min-block-size: 2.5rem;
     border-radius: 0.5rem;
-    padding-inline: var(--spacing-4);
+    padding-inline: var(--spacing-12);
 
     [data-theme="dark"] & {
       background-color: var(--db-quaternary);
@@ -55,7 +82,27 @@ svg {
 }
 
 .navigate-component {
-  appearance: none;
+  background: none;
+  margin: 0;
+  padding: var(--spacing-4);
+  cursor: pointer;
+  display: block;
+
+  [data-theme="dark"] & {
+    color: var(--df-primary);
+  }
+  [data-theme="light"] & {
+    color: var(--lf-primary);
+  }
+
+  &:hover {
+    [data-theme="dark"] & {
+      color: var(--da-primary);
+    }
+    [data-theme="light"] & {
+      color: var(--la-primary);
+    }
+  }
 }
 
 .plugin-actions {

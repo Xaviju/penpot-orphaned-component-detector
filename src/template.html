@@ -1,16 +1,21 @@
-<header>
-  <span>#NUMBER orphaned components</span>
-</header>
-<main class="orphaned-list-wrapper">
-  <ul
-    id="orphaned-list"
-    class="orphaned-list"
-  >
-    <li>
-      <span class="icon"></span> <span class="name">Component name</span>
-      <button class="focus">ICON</button>
-    </li>
-  </ul>
+<div class="plugin-welcome">
+  <div class="component-hero">${icons.component}</div>
+  <p>Click on the button to list orphaned components</p>
+</div>
+<main
+  class="plugin-main"
+  hidden
+>
+  <div class="orphaned-list-wrapper">
+    <div
+      class="orphaned-counter body-s"
+      id="comp-count"
+    ></div>
+    <ul
+      id="orphaned-list"
+      class="orphaned-list"
+    ></ul>
+  </div>
 </main>
 <footer class="plugin-actions">
   <button
