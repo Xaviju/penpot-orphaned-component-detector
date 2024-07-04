@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@penpot/plugin-styles": "0.8.0",
-    "@penpot/plugin-types": "^0.8.0"
+    "@penpot/plugin-types": "^0.8.0",
+    "@types/dom-view-transitions": "^1.0.4"
   },
   "devDependencies": {
     "typescript": "^5.5.2",

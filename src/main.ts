@@ -90,10 +90,10 @@ window.addEventListener("message", (event) => {
           ?.removeAttribute("hidden");
       };
 
-      if (document.startViewTransition) {
-        document.startViewTransition(() => pageTransition());
-      } else {
+      if (!document.startViewTransition) {
         pageTransition();
+      } else {
+        document.startViewTransition(() => pageTransition());
       }
 
       const orphanedComponents = event.data.content;
