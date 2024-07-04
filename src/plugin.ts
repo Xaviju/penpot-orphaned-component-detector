@@ -52,6 +52,7 @@ function centerViewport(message: PluginMessageEvent) {
   if (shape) {
     const center = penpot.utils.geometry.center([shape])!;
     penpot.viewport.center = center;
+    // penpot.selection = [shape];
   }
 }
 

@@ -1,5 +1,43 @@
 @import "@penpot/plugin-styles/styles.css";
 
+[data-theme="dark"] {
+  /* Accent */
+  --primary: var(--da-primary);
+  --primary-muted: var(--da-primary-muted);
+  --secondary: var(--da-secondary);
+  --tertiary: var(--da-tertiary);
+  --quaternary: var(--da-quaternary);
+
+  /* Background */
+  --b-primary: var(--db-primary);
+  --b-secondary: var(--db-secondary);
+  --b-tertiary: var(--db-tertiary);
+  --b-quaternary: var(--db-quaternary);
+
+  /* Foreground */
+  --f-primary: var(--df-primary);
+  --f-secondary: var(--df-secondary);
+}
+
+[data-theme="light"] {
+  /* Accent */
+  --primary: var(--la-primary);
+  --primary-muted: var(--la-primary-muted);
+  --secondary: var(--la-secondary);
+  --tertiary: var(--la-tertiary);
+  --quaternary: var(--la-quaternary);
+
+  /* Background */
+  --b-primary: var(--lb-primary);
+  --b-secondary: var(--lb-secondary);
+  --b-tertiary: var(--lb-tertiary);
+  --b-quaternary: var(--lb-quaternary);
+
+  /* Foreground */
+  --f-primary: var(--lf-primary);
+  --f-secondary: var(--lf-secondary);
+}
+
 body {
   block-size: 100vh;
 }
@@ -18,22 +56,44 @@ svg {
 .plugin-wrapper {
   flex: 1;
   display: flex;
+  flex-direction: column;
 }
 
 .plugin-welcome {
+  flex: 1;
+}
+
+.plugin-welcome-inner {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 1;
+  block-size: 100%;
   padding: 12px;
   text-align: center;
 }
 
-.plugin-welcome-hero > svg {
-  inline-size: 5rem;
-  block-size: 5rem;
-  margin-block-end: var(--spacing-16);
+.plugin-welcome-hero {
+  position: relative;
+  animation: draw 1.5s ease-out;
+  color: var(--secondary);
+
+  & svg {
+    inline-size: 5rem;
+    block-size: 5rem;
+    margin-block-end: var(--spacing-16);
+  }
+}
+
+@keyframes draw {
+  from {
+    bottom: var(--spacing-16);
+    color: var(--primary-muted);
+  }
+  to {
+    bottom: 0;
+    color: var(--secondary);
+  }
 }
 
 .plugin-main {
@@ -67,13 +127,7 @@ svg {
     min-block-size: 2.5rem;
     border-radius: 0.5rem;
     padding-inline: var(--spacing-12);
-
-    [data-theme="dark"] & {
-      background-color: var(--db-quaternary);
-    }
-    [data-theme="light"] & {
-      background-color: var(--lb-quaternary);
-    }
+    background-color: var(--b-quaternary);
   }
 }
 
@@ -87,21 +141,10 @@ svg {
   padding: var(--spacing-4);
   cursor: pointer;
   display: block;
-
-  [data-theme="dark"] & {
-    color: var(--df-primary);
-  }
-  [data-theme="light"] & {
-    color: var(--lf-primary);
-  }
+  color: var(--f-primary);
 
   &:hover {
-    [data-theme="dark"] & {
-      color: var(--da-primary);
-    }
-    [data-theme="light"] & {
-      color: var(--la-primary);
-    }
+    color: var(--primary);
   }
 }
 

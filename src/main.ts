@@ -19,8 +19,10 @@ const icons = {
 root.innerHTML = `
 <div class="plugin-wrapper">
   <div id="plugin-welcome" class="plugin-welcome">
-    <div class="plugin-welcome-hero">${icons.component}</div>
-    <p class="plugin-welcome-text">Click on the button to list orphaned components</p>
+    <div class="plugin-welcome-inner">
+      <div class="plugin-welcome-hero">${icons.component}</div>
+      <p class="plugin-welcome-text">Click on the button to list orphaned components</p>
+    </div>
   </div>
   <main
     id="plugin-main"
@@ -84,7 +86,7 @@ window.addEventListener("message", (event) => {
       const pageTransition = () => {
         document
           .querySelector<HTMLDivElement>("#plugin-welcome")
-          ?.setAttribute("hidden", "true");
+          ?.setAttribute("hidden", "hidden");
         document
           .querySelector<HTMLDivElement>("#plugin-main")
           ?.removeAttribute("hidden");
