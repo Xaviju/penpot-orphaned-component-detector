@@ -116,6 +116,7 @@ svg {
 }
 
 .orphaned-list {
+  display: flex;
   flex-direction: column;
   gap: var(--spacing-8);
 
@@ -133,6 +134,9 @@ svg {
 
 .component-name {
   flex: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .navigate-component {

@@ -4,8 +4,7 @@
   "code": "plugin.js",
   "description": "Search and list Orphaned Components in a page",
   "permissions": [
-    "page:read",
-    "file:read",
-    "selection:read"
+    "content:read",
+    "content:write"
   ]
 }

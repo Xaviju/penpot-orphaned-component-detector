@@ -29,11 +29,12 @@ root.innerHTML = `
     class="plugin-main"
     hidden
   >
-    <div class="orphaned-list-wrapper">
-      <div
+    <div
         class="orphaned-counter body-s"
         id="comp-count"
       ></div>
+    <div class="orphaned-list-wrapper">
+
       <ul
         id="orphaned-list"
         class="orphaned-list"
@@ -118,7 +119,7 @@ window.addEventListener("message", (event) => {
 
         // Create and append icon
         const componentListItemName = document.createElement("div");
-        componentListItemName.classList.add("component-name");
+        componentListItemName.classList.add("component-name", "body-m");
         componentListItemName.innerHTML = shape.name;
         componentListItem.appendChild(componentListItemName);
 
