@@ -33,14 +33,12 @@ root.innerHTML = `
         class="orphaned-counter body-s"
         id="comp-count"
       ></div>
-    <div class="orphaned-list-wrapper">
-
-      <ul
-        id="orphaned-list"
-        class="orphaned-list"
-      ></ul>
+    <div class="orphaned-list-wrapper" id="orphaned-list-wrapper">
     </div>
   </main>
+  <!-- <div class="plugin-error">
+
+  </div> -->
 
 </div>
 <footer class="plugin-actions">
@@ -101,55 +99,70 @@ window.addEventListener("message", (event) => {
 
       const orphanedComponents = event.data.content;
 
-      document.querySelector<HTMLDivElement>(
-        "#comp-count"
-      )!.innerHTML = `${orphanedComponents.length} orphaned components`;
-
       // Get reference to the orphaned component list and remove all the elements
-      const orphanedComponentList =
-        document.querySelector<HTMLDivElement>("#orphaned-list")!;
-      orphanedComponentList.innerHTML = "";
+      const orphanedComponentWrapper = document.querySelector<HTMLDivElement>(
+        "#orphaned-list-wrapper"
+      )!;
+      orphanedComponentWrapper.innerHTML = "";
 
-      orphanedComponents.forEach((shape: PenpotShape) => {
-        // Create listItem element
-        const componentListItem = document.createElement("li");
+      if (orphanedComponents) {
+        // Set the counter of orphaned element
+        document.querySelector<HTMLDivElement>(
+          "#comp-count"
+        )!.innerHTML = `${orphanedComponents.length} orphaned components`;
 
-        // Create and append icon
-        componentListItem.innerHTML = icons.component;
+        // Create UL component list wrapper
+        const orphanedComponentListWrapper = document.createElement("ul");
+        orphanedComponentListWrapper.classList.add("orphaned-list");
+        orphanedComponentWrapper.appendChild(orphanedComponentListWrapper);
 
-        // Create and append icon
-        const componentListItemName = document.createElement("div");
-        componentListItemName.classList.add("component-name", "body-m");
-        componentListItemName.innerHTML = shape.name;
-        componentListItem.appendChild(componentListItemName);
+        // Generate the corresponding LI element for each shape
+        orphanedComponents.forEach((shape: PenpotShape) => {
+          // Create listItem element
+          const componentListItem = document.createElement("li");
 
-        // Create and append locate button
-        const componentListItemLocateButton = document.createElement("button");
-        componentListItemLocateButton.type = "button";
-        componentListItemLocateButton.classList.add("navigate-component");
-        componentListItemLocateButton.setAttribute(
-          "aria-label",
-          "Navigate to component"
-        );
-        componentListItemLocateButton.setAttribute("data-shape", shape.id);
-        componentListItemLocateButton.innerHTML = icons.locate;
-        componentListItem.appendChild(componentListItemLocateButton);
+          // Create and append icon
+          componentListItem.innerHTML = icons.component;
 
-        orphanedComponentList.appendChild(componentListItem);
+          // Create and append icon
+          const componentListItemName = document.createElement("div");
+          componentListItemName.classList.add("component-name", "body-m");
+          componentListItemName.innerHTML = shape.name;
+          componentListItem.appendChild(componentListItemName);
 
-        componentListItemLocateButton?.addEventListener("click", (event) => {
-          if (
-            event.currentTarget &&
-            event.currentTarget instanceof HTMLButtonElement &&
-            event.currentTarget.dataset.shape
-          ) {
-            sendMessage({
-              content: event.currentTarget.dataset.shape,
-              type: "centerViewport",
-            });
-          }
+          // Create and append locate button
+          const componentListItemLocateButton =
+            document.createElement("button");
+          componentListItemLocateButton.type = "button";
+          componentListItemLocateButton.classList.add("navigate-component");
+          componentListItemLocateButton.setAttribute(
+            "aria-label",
+            "Navigate to component"
+          );
+          componentListItemLocateButton.setAttribute("data-shape", shape.id);
+          componentListItemLocateButton.innerHTML = icons.locate;
+          componentListItem.appendChild(componentListItemLocateButton);
+
+          orphanedComponentListWrapper.appendChild(componentListItem);
+
+          componentListItemLocateButton?.addEventListener("click", (event) => {
+            if (
+              event.currentTarget &&
+              event.currentTarget instanceof HTMLButtonElement &&
+              event.currentTarget.dataset.shape
+            ) {
+              sendMessage({
+                content: event.currentTarget.dataset.shape,
+                type: "centerViewport",
+              });
+            }
+          });
         });
-      });
+      } else {
+        const emptyOrphanedComponents = document.createElement("div");
+        emptyOrphanedComponents.innerHTML = "Aqui no haya na";
+        orphanedComponentWrapper.appendChild(emptyOrphanedComponents);
+      }
     }
   }
 });

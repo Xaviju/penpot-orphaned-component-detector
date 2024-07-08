@@ -30,8 +30,6 @@ function filterOrphanedShapes(): PenpotShape[] | null {
     (shape) => !shape.componentRefShape()
   );
 
-  console.log("orphanedInstances", orphanedInstances);
-
   return orphanedInstances;
 }
 
@@ -52,7 +50,7 @@ function centerViewport(message: PluginMessageEvent) {
   if (shape) {
     const center = penpot.utils.geometry.center([shape])!;
     penpot.viewport.center = center;
-    // penpot.selection = [shape];
+    penpot.selection = [shape];
   }
 }
 
