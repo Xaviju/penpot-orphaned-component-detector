@@ -1,5 +1,5 @@
 import { PenpotShape } from "@penpot/plugin-types";
-import { PluginMessageEvent } from "./model";
+import { CenterViewportPluginEvent, PluginMessageEvent } from "./model";
 
 console.log("Hello from the plugin!");
 
@@ -10,6 +10,10 @@ penpot.ui.open("ORPHANED DETECTOR PLUGIN", `?theme=${penpot.getTheme()}`, {
 
 penpot.on("themechange", (theme) => {
   sendMessage({ type: "theme", content: theme });
+});
+
+penpot.on("pagechange", (page) => {
+  sendMessage({ type: "page", content: page });
 });
 
 function sendMessage(message: PluginMessageEvent) {
@@ -45,7 +49,7 @@ function getOrphanedComponentInstances() {
   penpot.ui.sendMessage(message);
 }
 
-function centerViewport(message: PluginMessageEvent) {
+function centerViewport(message: CenterViewportPluginEvent) {
   const shape = penpot.getPage()?.getShapeById(message.content);
   if (shape) {
     const center = penpot.utils.geometry.center([shape])!;

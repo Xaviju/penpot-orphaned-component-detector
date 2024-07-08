@@ -12,8 +12,8 @@ const icons = {
   component: `
   <svg version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
     <path d="m6.8764 0.98119a1.5903 1.5896 0 0 1 2.2471 0l5.8987 5.8958c0.61961 0.62034 0.61961 1.6257 0 2.246l-5.8987 5.8958c-0.62064 0.61931-1.6265 0.61931-2.2471 0l-5.8987-5.8958a1.5903 1.5896 0 0 1 0-2.246zm0.77968 4.8678-1.8082 1.8073a0.48536 0.48512 0 0 0 0 0.68743l1.8082 1.8073a0.48536 0.48512 0 0 0 0.68777 0l1.8082-1.8073a0.48536 0.48512 0 0 0 0-0.68743l-1.8082-1.8073a0.48536 0.48512 0 0 0-0.68777 0z" stroke-linecap="round" stroke-width="1.0324"/>
-  </svg>
-`,
+  </svg>`,
+  empty: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`,
 };
 
 root.innerHTML = `
@@ -33,7 +33,7 @@ root.innerHTML = `
         class="orphaned-counter body-s"
         id="comp-count"
       ></div>
-    <div class="orphaned-list-wrapper" id="orphaned-list-wrapper">
+    <div class="plugin-content-wrapper" id="plugin-content-wrapper">
     </div>
   </main>
   <!-- <div class="plugin-error">
@@ -78,6 +78,9 @@ document.getElementById("locate")?.addEventListener("click", () => {
 // Incoming message manager
 window.addEventListener("message", (event) => {
   if (event.data) {
+    if (event.data.type === "page") {
+      reset();
+    }
     if (event.data.type === "theme") {
       root.setAttribute("data-theme", event.data.content);
     }
@@ -97,24 +100,28 @@ window.addEventListener("message", (event) => {
         document.startViewTransition(() => pageTransition());
       }
 
-      const orphanedComponents = event.data.content;
+      const orphanedComponents = event.data.content || [];
 
       // Get reference to the orphaned component list and remove all the elements
-      const orphanedComponentWrapper = document.querySelector<HTMLDivElement>(
-        "#orphaned-list-wrapper"
+      const pluginContentWrapper = document.querySelector<HTMLDivElement>(
+        "#plugin-content-wrapper"
       )!;
-      orphanedComponentWrapper.innerHTML = "";
+      pluginContentWrapper.innerHTML = "";
 
-      if (orphanedComponents) {
-        // Set the counter of orphaned element
-        document.querySelector<HTMLDivElement>(
-          "#comp-count"
-        )!.innerHTML = `${orphanedComponents.length} orphaned components`;
+      // Set the counter of orphaned element
+      document.querySelector<HTMLDivElement>(
+        "#comp-count"
+      )!.innerHTML = `${orphanedComponents.length} orphaned components`;
 
-        // Create UL component list wrapper
-        const orphanedComponentListWrapper = document.createElement("ul");
-        orphanedComponentListWrapper.classList.add("orphaned-list");
-        orphanedComponentWrapper.appendChild(orphanedComponentListWrapper);
+      if (orphanedComponents.length) {
+        const orphanedComponentListWrapper = document.createElement("div");
+        orphanedComponentListWrapper.classList.add("orphaned-list-wrapper");
+        pluginContentWrapper.appendChild(orphanedComponentListWrapper);
+
+        // Create UL component list
+        const orphanedComponentList = document.createElement("ul");
+        orphanedComponentList.classList.add("orphaned-list");
+        orphanedComponentListWrapper.appendChild(orphanedComponentList);
 
         // Generate the corresponding LI element for each shape
         orphanedComponents.forEach((shape: PenpotShape) => {
@@ -143,7 +150,7 @@ window.addEventListener("message", (event) => {
           componentListItemLocateButton.innerHTML = icons.locate;
           componentListItem.appendChild(componentListItemLocateButton);
 
-          orphanedComponentListWrapper.appendChild(componentListItem);
+          orphanedComponentList.appendChild(componentListItem);
 
           componentListItemLocateButton?.addEventListener("click", (event) => {
             if (
@@ -159,13 +166,50 @@ window.addEventListener("message", (event) => {
           });
         });
       } else {
+        const emptyOrphanedComponentsWrapper = document.createElement("div");
+        emptyOrphanedComponentsWrapper.classList.add("empty-orphaned-wrapper");
+
         const emptyOrphanedComponents = document.createElement("div");
-        emptyOrphanedComponents.innerHTML = "Aqui no haya na";
-        orphanedComponentWrapper.appendChild(emptyOrphanedComponents);
+        emptyOrphanedComponents.classList.add("empty-orphaned");
+
+        const emptyOrphanedComponentsIcon = document.createElement("div");
+        emptyOrphanedComponentsIcon.innerHTML = icons.empty;
+
+        const emptyOrphanedComponentsTxt = document.createElement("p");
+        emptyOrphanedComponentsTxt.innerHTML =
+          "Well done! <br> Couldn't find any orphaned components in this page";
+
+        emptyOrphanedComponents.appendChild(emptyOrphanedComponentsIcon);
+        emptyOrphanedComponents.appendChild(emptyOrphanedComponentsTxt);
+        emptyOrphanedComponentsWrapper.appendChild(emptyOrphanedComponents);
+        pluginContentWrapper.appendChild(emptyOrphanedComponentsWrapper);
       }
     }
   }
 });
+
+function reset() {
+  const pageTransition = () => {
+    document
+      .querySelector<HTMLDivElement>("#plugin-welcome")
+      ?.removeAttribute("hidden");
+    document
+      .querySelector<HTMLDivElement>("#plugin-main")
+      ?.setAttribute("hidden", "hidden");
+  };
+
+  if (!document.startViewTransition) {
+    pageTransition();
+  } else {
+    document.startViewTransition(() => pageTransition());
+  }
+
+  // Get reference to the orphaned component list and remove all the elements
+  const orphanedComponentWrapper = document.querySelector<HTMLDivElement>(
+    "#orphaned-list-wrapper"
+  )!;
+  orphanedComponentWrapper.innerHTML = "";
+}
 
 function sendMessage(message: PluginMessageEvent): void {
   parent.postMessage(message, "*");

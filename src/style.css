@@ -1,5 +1,10 @@
 @import "@penpot/plugin-styles/styles.css";
 
+:root {
+  --orphaned-counter-block-size: 2rlh;
+  --orphaned-actions-block-size: 60px;
+}
+
 [data-theme="dark"] {
   /* Accent */
   --primary: var(--da-primary);
@@ -97,6 +102,7 @@ svg {
 }
 
 .plugin-main {
+  flex: 1;
 }
 
 ::view-transition-old(root),
@@ -104,13 +110,15 @@ svg {
   animation-duration: 0.4s;
 }
 
-.orphaned-list-wrapper {
-  flex: 1;
-  max-block-size: calc(100vh - 60px);
-  overflow: auto;
+.plugin-content-wrapper {
+  block-size: 100%;
+  max-block-size: calc(
+    100% - var(--orphaned-actions-block-size) -
+      var(--orphaned-counter-block-size)
+  );
 }
-
 .orphaned-counter {
+  block-size: var(--orphaned-counter-block-size);
   margin-block: var(--spacing-8);
   margin-block-end: var(--spacing-12);
 }
@@ -153,8 +161,35 @@ svg {
 }
 
 .plugin-actions {
-  block-size: 60px;
+  flex: 0;
+  block-size: var(--orphaned-actions-block-size);
   align-items: center;
   display: flex;
   justify-content: flex-end;
+}
+
+.empty-orphaned-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  block-size: 100%;
+}
+
+.empty-orphaned {
+  position: relative;
+  bottom: 4rlh;
+  text-align: center;
+  padding-inline: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    color: var(--primary);
+    inline-size: 3rem;
+    block-size: 3rem;
+    margin-block-end: var(--spacing-8);
+  }
 }
