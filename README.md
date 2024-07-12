@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The Orphaned Components Finder plugin for Penpot helps you quickly locate and manage orphaned copies of your components.
+The Orphaned Components Detector plugin for Penpot helps you quickly locate and manage orphaned copies of your components.
 
 ## Installation
 
