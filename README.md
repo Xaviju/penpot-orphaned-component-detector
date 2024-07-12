@@ -1,14 +1,14 @@
-# Penpot Plugin Starter Template
+# Orphaned Components Detector | Penpot Plugin
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/23b92762-c867-4181-a33d-e0116e85417d/deploy-status)](https://app.netlify.com/sites/orphaned-detector-plugin/deploys)
 
 ## Introduction
 
-The Orphaned Components Detector plugin for Penpot helps you quickly locate and manage orphaned copies of your components.
+The Orphaned Components Detector plugin for [Penpot](penpot.app) helps you quickly locate and manage orphaned copies of your components.
 
 ## Installation
 
-To install the component, just open the plugiuns window in Penpot and paste this URL: https://orphaned-detector-plugin.netlify.app/manifest.json
+To install the component, just open the plugin manager in Penpot and paste this URL: https://orphaned-detector-plugin.netlify.app/manifest.json
 
 ## Usage
 
