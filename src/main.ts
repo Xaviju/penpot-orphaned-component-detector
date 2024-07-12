@@ -67,12 +67,16 @@ const updateThemeFromUrl = () => {
   }
 };
 
-// Sends a message to the plugin wrapper when the element is clicked
-document.getElementById("locate")?.addEventListener("click", () => {
+const handleLocateButtonClick = () => {
   sendMessage({
     content: "",
     type: "locate",
   });
+};
+
+// Sends a message to the plugin wrapper when the element is clicked
+document.getElementById("locate")?.addEventListener("click", () => {
+  handleLocateButtonClick();
 });
 
 // Incoming message manager
@@ -188,7 +192,7 @@ window.addEventListener("message", (event) => {
   }
 });
 
-function reset() {
+const reset = () => {
   const pageTransition = () => {
     document
       .querySelector<HTMLDivElement>("#plugin-welcome")
@@ -209,7 +213,7 @@ function reset() {
     "#orphaned-list-wrapper"
   )!;
   orphanedComponentWrapper.innerHTML = "";
-}
+};
 
 function sendMessage(message: PluginMessageEvent): void {
   parent.postMessage(message, "*");
