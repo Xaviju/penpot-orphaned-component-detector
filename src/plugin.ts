@@ -1,9 +1,9 @@
-import { PenpotShape } from "@penpot/plugin-types";
+import { Shape } from "@penpot/plugin-types";
 import { CenterViewportPluginEvent, PluginMessageEvent } from "./model";
 
 console.log("Hello from the plugin!");
 
-penpot.ui.open("ORPHANED DETECTOR PLUGIN", `?theme=${penpot.getTheme()}`, {
+penpot.ui.open("ORPHANED DETECTOR PLUGIN", `?theme=${penpot.theme}`, {
   width: 400,
   height: 800,
 });
@@ -20,8 +20,8 @@ function sendMessage(message: PluginMessageEvent) {
   penpot.ui.sendMessage(message);
 }
 
-function filterOrphanedShapes(): PenpotShape[] | null {
-  const pageShapes = penpot.getPage()?.findShapes();
+function filterOrphanedShapes(): Shape[] | null {
+  const pageShapes = penpot.currentPage?.findShapes();
   if (!pageShapes) return null;
 
   const componentInstances = pageShapes.filter(
@@ -30,7 +30,7 @@ function filterOrphanedShapes(): PenpotShape[] | null {
 
   if (!componentInstances.length) return null;
 
-  const orphanedInstances: PenpotShape[] = componentInstances.filter(
+  const orphanedInstances: Shape[] = componentInstances.filter(
     (shape) => !shape.componentRefShape()
   );
 
@@ -50,7 +50,7 @@ function getOrphanedComponentInstances() {
 }
 
 function centerViewport(message: CenterViewportPluginEvent) {
-  const shape = penpot.getPage()?.getShapeById(message.content);
+  const shape = penpot.currentPage?.getShapeById(message.content);
   if (shape) {
     const center = penpot.utils.geometry.center([shape])!;
     penpot.viewport.center = center;

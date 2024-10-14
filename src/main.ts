@@ -1,4 +1,4 @@
-import { PenpotShape } from "@penpot/plugin-types";
+import { Shape } from "@penpot/plugin-types";
 import { PluginMessageEvent } from "./model";
 import "./style.css";
 
@@ -128,7 +128,7 @@ window.addEventListener("message", (event) => {
         orphanedComponentListWrapper.appendChild(orphanedComponentList);
 
         // Generate the corresponding LI element for each shape
-        orphanedComponents.forEach((shape: PenpotShape) => {
+        orphanedComponents.forEach((shape: Shape) => {
           // Create listItem element
           const componentListItem = document.createElement("li");
 

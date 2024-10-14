@@ -2,7 +2,7 @@
  * This file contains the typescript interfaces for the plugin events.
  */
 
-import { PenpotPage } from "@penpot/plugin-types";
+import { Page } from "@penpot/plugin-types";
 
 export interface ThemePluginEvent {
   type: "theme";
@@ -21,7 +21,7 @@ export interface CenterViewportPluginEvent {
 
 export interface PageChangePluginEvent {
   type: "page";
-  content: PenpotPage;
+  content: Page;
 }
 
 export type PluginMessageEvent =
