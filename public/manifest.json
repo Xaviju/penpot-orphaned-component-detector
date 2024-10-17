@@ -2,7 +2,7 @@
   "name": "Orphaned Detector",
   "host": "http://localhost:4400",
   "code": "plugin.js",
-  "icon": "icon.png",
+  "icon": "/icon.png",
   "description": "Search and list Orphaned Components in a page",
   "permissions": ["content:read", "content:write"]
 }
